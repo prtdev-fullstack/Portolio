@@ -1,0 +1,132 @@
+@import '@fontsource/fraunces/500.css';
+@import '@fontsource/fraunces/600.css';
+@import '@fontsource/fraunces/700.css';
+@import '@fontsource/fraunces/500-italic.css';
+@import '@fontsource/fraunces/600-italic.css';
+@import '@fontsource/jetbrains-mono/400.css';
+@import '@fontsource/jetbrains-mono/500.css';
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+@import '@fontsource/inter/600.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-bg text-text font-sans antialiased;
+  }
+
+  ::selection {
+    @apply bg-accent/30 text-text;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-accent ring-offset-2 ring-offset-bg;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-text via-accent to-text bg-[length:200%_200%] animate-gradient-x;
+  }
+
+  .glass {
+    @apply bg-surface/70 backdrop-blur-xl border border-border/60;
+  }
+}
+
+[cmdk-overlay] {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgba(8, 9, 12, 0.7);
+  backdrop-filter: blur(4px);
+  animation: cmdk-overlay-in 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[cmdk-overlay][data-state='closed'] {
+  animation: cmdk-overlay-out 0.18s ease-in forwards;
+}
+
+[cmdk-dialog],
+[cmdk-root] {
+  animation: cmdk-dialog-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[cmdk-dialog][data-state='closed'],
+[cmdk-root][data-state='closed'] {
+  animation: cmdk-dialog-out 0.18s ease-in forwards;
+}
+
+@keyframes cmdk-overlay-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes cmdk-overlay-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes cmdk-dialog-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -8px) scale(0.98);
+  }
+}
+
+@keyframes cmdk-dialog-out {
+  to {
+    opacity: 0;
+    transform: translate(-50%, -8px) scale(0.98);
+  }
+}
+
+@keyframes scroll-reel-char-rise {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scroll-reel-exit {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
+
+.scroll-reel-char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(12px);
+  animation: scroll-reel-char-rise 320ms cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+.scroll-reel-exit {
+  animation: scroll-reel-exit 260ms cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
